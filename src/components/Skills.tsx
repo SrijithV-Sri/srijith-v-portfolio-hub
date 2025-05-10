@@ -80,7 +80,10 @@ const Skills: React.FC = () => {
                       <Progress 
                         value={skill.level} 
                         className="h-2 bg-gray-100"
-                        indicatorClassName={`${skill.color.split(' ')[0]}`}
+                        // Fixed: Removed indicatorClassName prop and used style
+                        style={{ 
+                          '--progress-background': `var(--${skill.color.split(' ')[0].substring(3)})` 
+                        } as React.CSSProperties}
                       />
                     </motion.div>
                   ))}
