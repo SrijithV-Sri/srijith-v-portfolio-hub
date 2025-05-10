@@ -104,7 +104,7 @@ const Hero: React.FC = () => {
               asChild
             >
               <a
-                href="/resume/SRIJITH_V.pdf"
+                href="/SRIJITH_V.pdf"
                 download="SRIJITH_V_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
