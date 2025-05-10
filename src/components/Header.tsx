@@ -129,7 +129,7 @@ const Header: React.FC = () => {
               asChild
             >
               <a
-                href="https://github.com/SrijithV-Sri/"
+                href="https://github.com/SrijithV-Sri/SrijithV-Sri/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -237,7 +237,7 @@ const Header: React.FC = () => {
                   asChild
                 >
                   <a
-                    href="https://github.com/"
+                    href="https://github.com/SrijithV-Sri/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub"
