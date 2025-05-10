@@ -34,6 +34,13 @@
     --ring: 240 5.9% 10%;
 
     --radius: 0.5rem;
+    
+    --colors-tech-python: #3776AB;
+    --colors-tech-terraform: #7B42BC;
+    --colors-tech-nextjs: #000000;
+    --colors-tech-html: #E34F26;
+    --colors-tech-css: #1572B6;
+    --colors-tech-javascript: #F7DF1E;
   }
 
   .dark {
