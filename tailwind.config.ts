@@ -122,6 +122,15 @@ export default {
 					'50%': { transform: 'rotate(10.0deg)' },
 					'60%': { transform: 'rotate(0.0deg)' },
 					'100%': { transform: 'rotate(0.0deg)' }
+				},
+				marquee: {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-100%)' }
+				},
+				shimmer: {
+					'100%': {
+						transform: 'translateX(100%)',
+					},
 				}
 			},
 			animation: {
@@ -129,7 +138,12 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-out',
 				'slide-in': 'slide-in 0.5s ease-out',
-				'wave': 'wave 1.5s infinite'
+				'wave': 'wave 1.5s infinite',
+				'marquee': 'marquee 25s linear infinite',
+				'shimmer': 'shimmer 2s infinite',
+			},
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 			}
 		}
 	},
