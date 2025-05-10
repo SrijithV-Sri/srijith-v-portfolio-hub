@@ -2,6 +2,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Experience from '@/components/Experience';
@@ -12,6 +14,8 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+
+const queryClient = new QueryClient();
 
 export default function Page() {
   const controls = useAnimation();
@@ -27,34 +31,38 @@ export default function Page() {
   }, [controls, inView]);
 
   return (
-    <div className="min-h-screen bg-gradient-pattern">
-      <Header />
-      <motion.main 
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { staggerChildren: 0.3 } }
-        }}
-      >
-        <Hero />
-        <motion.div
-          ref={ref}
-          initial="hidden"
-          animate={controls}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { duration: 0.8 } }
-          }}
-        >
-          <Experience />
-          <Skills />
-          <Education />
-          <Achievements />
-          <Contact />
-        </motion.div>
-      </motion.main>
-      <Footer />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <div className="min-h-screen bg-gradient-pattern">
+          <Header />
+          <motion.main 
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.3 } }
+            }}
+          >
+            <Hero />
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate={controls}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { duration: 0.8 } }
+              }}
+            >
+              <Experience />
+              <Skills />
+              <Education />
+              <Achievements />
+              <Contact />
+            </motion.div>
+          </motion.main>
+          <Footer />
+        </div>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 }

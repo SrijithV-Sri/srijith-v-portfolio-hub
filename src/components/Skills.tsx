@@ -1,4 +1,6 @@
 
+'use client';
+
 import React from 'react';
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
@@ -7,21 +9,21 @@ const skills = [
   {
     category: 'Frontend',
     items: [
-      { name: 'HTML/CSS', level: 85, color: 'bg-tech-html' },
-      { name: 'JavaScript', level: 80, color: 'bg-tech-javascript' },
-      { name: 'NextJS', level: 85, color: 'bg-tech-nextjs' },
+      { name: 'HTML/CSS', level: 85, color: 'rgb(234, 84, 85)' },
+      { name: 'JavaScript', level: 80, color: 'rgb(246, 189, 96)' },
+      { name: 'NextJS', level: 85, color: 'rgb(51, 194, 255)' },
     ]
   },
   {
     category: 'Backend',
     items: [
-      { name: 'Python/Flask', level: 90, color: 'bg-tech-python' },
+      { name: 'Python/Flask', level: 90, color: 'rgb(120, 165, 255)' },
     ]
   },
   {
     category: 'DevOps',
     items: [
-      { name: 'Terraform', level: 85, color: 'bg-tech-terraform' },
+      { name: 'Terraform', level: 85, color: 'rgb(142, 115, 226)' },
     ]
   }
 ];
@@ -79,9 +81,7 @@ const Skills = () => {
                       value={skill.level} 
                       className="h-2 bg-gray-100"
                       style={{ 
-                        '--progress-background': skill.color.includes('tech') 
-                          ? `var(--colors-${skill.color.split('-')[1]}-${skill.color.split('-')[2]})` 
-                          : undefined
+                        '--progress-background': skill.color
                       } as React.CSSProperties}
                     />
                   </motion.div>
