@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -74,15 +73,16 @@ const Skills = () => {
                     }}
                   >
                     <div className="flex justify-between">
-                      <span className="font-medium">{skill.name}</span>
-                      <span>{skill.level}%</span>
+                      <span className="font-medium text-foreground">{skill.name}</span>
+                      <span className="text-foreground">{skill.level}%</span>
                     </div>
                     <Progress 
                       value={skill.level} 
-                      className="h-2 bg-gray-100"
+                      className="h-2 bg-gray-200 dark:bg-gray-700"
                       style={{ 
-                        '--progress-background': skill.color
-                      } as React.CSSProperties}
+                        backgroundColor: `hsl(var(--background))`,
+                        ['--progress-background' as any]: skill.color
+                      }}
                     />
                   </motion.div>
                 ))}
