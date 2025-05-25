@@ -127,7 +127,11 @@ const Hero: React.FC = () => {
             <div className="absolute inset-4 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden">
               <div className="hero-pattern-bg w-full h-full"></div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-6xl">👨‍💻</div>
+                <img
+                  src="/SrijithPortfolio.png"
+                  alt="Srijith V Portfolio"
+                  className="rounded-full object-cover w-full h-full"
+                />
               </div>
             </div>
           </div>
