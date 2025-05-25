@@ -103,19 +103,6 @@ const Footer: React.FC = () => {
             </div>
           </motion.div>
         </div>
-
-        <div className="pt-8 text-center">
-          <p className="text-sm text-muted-foreground mb-2">
-            Coimbatore, India
-          </p>
-          <p className="text-sm text-muted-foreground flex items-center justify-center">
-            &copy; {currentYear} Srijith V. All rights reserved. Made with
-            <Heart
-              className="h-4 w-4 mx-1 text-red-500 animate-pulse"
-              fill="currentColor"
-            />
-          </p>
-        </div>
       </div>
     </footer>
   );
