@@ -168,7 +168,7 @@ const Achievements: React.FC = () => {
           viewport={{ once: true }}
         >
           <p className="text-muted-foreground italic max-w-2xl mx-auto">
-            "Technology isn’t magic-it’s precision, purpose, and the will to build what matters."
+            "Technology isn’t magic - it’s precision, purpose, and the will to build what matters."
           </p>
         </motion.div>
       </div>
