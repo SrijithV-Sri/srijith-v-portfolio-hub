@@ -1,69 +1,78 @@
+// src/components/Header.tsx
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, Linkedin, Github, Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/App";
+
+const NAV_ITEMS = [
+  "About",
+  "Experience",
+  "Skills",
+  "Education",
+  "Achievements",
+  "Contact",
+];
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    document.documentElement.classList.toggle("dark", newMode);
-  };
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <header
       className={`sticky top-0 w-full py-4 px-4 md:px-8 z-50 transition-all duration-300 ${
         isScrolled
-          ? "backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 shadow-md"
+          ? "backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 shadow-md"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center">
+        {/* Logo */}
         <motion.div
           className="flex items-center"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center mr-3 text-white font-bold">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center mr-3 text-white font-bold flex-shrink-0">
             SV
           </div>
-          <h1 className="text-xl font-bold gradient-text">Srijith V</h1>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+            Srijith V
+          </h1>
         </motion.div>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
-          {[
-            "About",
-            "Experience",
-            "Skills",
-            "Education",
-            "Achievements",
-            "Contact",
-          ].map((item, index) => (
+          {NAV_ITEMS.map((item, index) => (
             <motion.a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="relative group py-2"
+              className="relative group py-2 text-gray-700 dark:text-gray-200"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <span className="text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              <span className="group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                 {item}
               </span>
               <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-purple-600 to-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
@@ -71,73 +80,61 @@ const Header: React.FC = () => {
           ))}
         </nav>
 
+        {/* Actions */}
         <div className="flex items-center gap-2">
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
           >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-              onClick={toggleTheme}
-            >
-              {isDarkMode ? (
-                <Sun className="h-5 w-5 text-yellow-500" />
-              ) : (
-                <Moon className="h-5 w-5 text-purple-600" />
-              )}
-            </Button>
-          </motion.div>
+            {theme === "dark" ? (
+              <Sun className="h-5 w-5 text-yellow-400" />
+            ) : (
+              <Moon className="h-5 w-5 text-purple-600" />
+            )}
+          </Button>
 
           <div className="hidden md:flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-              asChild
-            >
-              <a
-                href="mailto:srijith180497@gmail.com"
-                aria-label="Email"
-                title="Email"
+            {[
+              {
+                href: "mailto:srijith180497@gmail.com",
+                label: "Email",
+                icon: <Mail className="h-5 w-5" />,
+              },
+              {
+                href: "https://www.linkedin.com/in/srijith-v-87a4201ab/",
+                label: "LinkedIn",
+                icon: <Linkedin className="h-5 w-5" />,
+                external: true,
+              },
+              {
+                href: "https://github.com/SrijithV-Sri/",
+                label: "GitHub",
+                icon: <Github className="h-5 w-5" />,
+                external: true,
+              },
+            ].map(({ href, label, icon, external }) => (
+              <Button
+                key={label}
+                variant="ghost"
+                size="icon"
+                className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
+                asChild
               >
-                <Mail className="h-5 w-5 text-foreground hover:text-purple-600 dark:hover:text-purple-400" />
-              </a>
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-              asChild
-            >
-              <a
-                href="https://www.linkedin.com/in/srijith-v-87a4201ab/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                title="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5 text-foreground hover:text-purple-600 dark:hover:text-purple-400" />
-              </a>
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-              asChild
-            >
-              <a
-                href="https://github.com/SrijithV-Sri/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                title="GitHub"
-              >
-                <Github className="h-5 w-5 text-foreground hover:text-purple-600 dark:hover:text-purple-400" />
-              </a>
-            </Button>
+                <a
+                  href={href}
+                  aria-label={label}
+                  title={label}
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  {icon}
+                </a>
+              </Button>
+            ))}
           </div>
 
           <Button
@@ -145,16 +142,18 @@ const Header: React.FC = () => {
             size="icon"
             className="md:hidden rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-6 w-6 text-gray-700 dark:text-gray-200" />
           </Button>
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 bg-white dark:bg-gray-900 z-50 p-6 flex flex-col"
+            className="fixed inset-0 bg-white dark:bg-gray-950 z-50 p-6 flex flex-col"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
@@ -165,7 +164,9 @@ const Header: React.FC = () => {
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center mr-3 text-white font-bold">
                   SV
                 </div>
-                <h1 className="text-xl font-bold gradient-text">Srijith V</h1>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                  Srijith V
+                </h1>
               </div>
               <Button
                 variant="ghost"
@@ -177,19 +178,12 @@ const Header: React.FC = () => {
               </Button>
             </div>
 
-            <div className="flex flex-col gap-6">
-              {[
-                "About",
-                "Experience",
-                "Skills",
-                "Education",
-                "Achievements",
-                "Contact",
-              ].map((item) => (
+            <div className="flex flex-col gap-6 flex-1">
+              {NAV_ITEMS.map((item) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="text-2xl font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  className="text-2xl font-medium text-gray-800 dark:text-gray-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                   whileHover={{ x: 10 }}
                 >
@@ -200,52 +194,43 @@ const Header: React.FC = () => {
 
             <div className="mt-auto">
               <div className="flex items-center justify-center gap-6 pt-6 border-t border-gray-100 dark:border-gray-800">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-                  asChild
-                >
-                  <a
-                    href="mailto:srijith180497@gmail.com"
-                    aria-label="Email"
-                    title="Email"
+                {[
+                  {
+                    href: "mailto:srijith180497@gmail.com",
+                    label: "Email",
+                    icon: <Mail className="h-6 w-6" />,
+                  },
+                  {
+                    href: "https://www.linkedin.com/in/srijith-v-87a4201ab/",
+                    label: "LinkedIn",
+                    icon: <Linkedin className="h-6 w-6" />,
+                    external: true,
+                  },
+                  {
+                    href: "https://github.com/SrijithV-Sri/",
+                    label: "GitHub",
+                    icon: <Github className="h-6 w-6" />,
+                    external: true,
+                  },
+                ].map(({ href, label, icon, external }) => (
+                  <Button
+                    key={label}
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-600 dark:text-gray-300"
+                    asChild
                   >
-                    <Mail className="h-6 w-6 text-foreground hover:text-purple-600 dark:hover:text-purple-400" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-                  asChild
-                >
-                  <a
-                    href="https://www.linkedin.com/in/srijith-v-87a4201ab/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                    title="LinkedIn"
-                  >
-                    <Linkedin className="h-6 w-6 text-foreground hover:text-purple-600 dark:hover:text-purple-400" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30"
-                  asChild
-                >
-                  <a
-                    href="https://github.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub"
-                    title="GitHub"
-                  >
-                    <Github className="h-6 w-6 text-foreground hover:text-purple-600 dark:hover:text-purple-400" />
-                  </a>
-                </Button>
+                    <a
+                      href={href}
+                      aria-label={label}
+                      {...(external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                    >
+                      {icon}
+                    </a>
+                  </Button>
+                ))}
               </div>
             </div>
           </motion.div>

@@ -1,149 +1,217 @@
-
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// src/components/Contact.tsx
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, Linkedin, Send } from "lucide-react";
+import { Phone, Mail, Linkedin, Send, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+const contactLinks = [
+  {
+    icon: <Phone className="h-5 w-5 text-white" />,
+    label: "Phone",
+    value: "+91 7904206023",
+    href: "tel:+917904206023",
+    gradient: "from-purple-500 to-blue-500",
+    hoverClass: "hover:text-purple-600 dark:hover:text-purple-400",
+  },
+  {
+    icon: <Mail className="h-5 w-5 text-white" />,
+    label: "Email",
+    value: "srijith180497@gmail.com",
+    href: "mailto:srijith180497@gmail.com",
+    gradient: "from-blue-500 to-cyan-400",
+    hoverClass: "hover:text-blue-600 dark:hover:text-blue-400",
+  },
+  {
+    icon: <Linkedin className="h-5 w-5 text-white" />,
+    label: "LinkedIn",
+    value: "srijith-v-87a4201ab",
+    href: "https://www.linkedin.com/in/srijith-v-87a4201ab/",
+    gradient: "from-cyan-500 to-teal-400",
+    hoverClass: "hover:text-cyan-600 dark:hover:text-cyan-400",
+    external: true,
+  },
+];
+
 const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real implementation, you would handle the form submission
     window.location.href = "mailto:srijith180497@gmail.com";
   };
 
   return (
-    <section id="contact" className="py-16 px-4 md:px-8 relative overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
-        <div className="absolute bottom-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
+    <section
+      id="contact"
+      className="py-16 px-4 md:px-8 bg-gray-50 dark:bg-gray-900/50 relative overflow-hidden"
+    >
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-blue-300/10 dark:bg-blue-700/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-20 left-10 w-72 h-72 bg-purple-300/10 dark:bg-purple-700/10 rounded-full filter blur-3xl"></div>
       </div>
-      
+
       <div className="max-w-6xl mx-auto">
-        <h2 className="section-heading">Get In Touch</h2>
-        
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <motion.div 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-2 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+            Get In Touch
+          </h2>
+          <p className="text-center text-gray-500 dark:text-gray-400 mb-12">
+            Let's connect and build something great together
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Contact Info */}
+          <motion.div
             className="lg:col-span-2 space-y-6"
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Card className="border-0 shadow-lg overflow-hidden bg-gradient-to-br from-purple-500/5 to-blue-500/5">
+            <Card className="border border-gray-100 dark:border-gray-700 shadow-lg bg-white dark:bg-gray-800 h-full">
               <CardHeader>
-                <CardTitle className="text-2xl">Contact Information</CardTitle>
+                <CardTitle className="text-xl text-gray-900 dark:text-gray-100">
+                  Contact Information
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <motion.div 
-                  className="flex items-center gap-4"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                    <Phone className="h-5 w-5 text-white" />
+              <CardContent className="space-y-5">
+                {contactLinks.map(
+                  ({ icon, label, value, href, gradient, hoverClass, external }) => (
+                    <motion.div
+                      key={label}
+                      className="flex items-center gap-4"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div
+                        className={`w-11 h-11 rounded-full bg-gradient-to-r ${gradient} flex items-center justify-center flex-shrink-0 shadow`}
+                      >
+                        {icon}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                          {label}
+                        </p>
+                        <a
+                          href={href}
+                          className={`text-sm text-gray-700 dark:text-gray-300 ${hoverClass} transition-colors truncate block`}
+                          {...(external
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {value}
+                        </a>
+                      </div>
+                    </motion.div>
+                  )
+                )}
+
+                <div className="flex items-center gap-4 pt-2 border-t border-gray-100 dark:border-gray-700">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow">
+                    <MapPin className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium">Phone</h3>
-                    <a 
-                      href="tel:+917904206023" 
-                      className="text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    >
-                      +91 7904206023
-                    </a>
+                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                      Location
+                    </p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      Coimbatore, India
+                    </p>
                   </div>
-                </motion.div>
-                
-                <motion.div 
-                  className="flex items-center gap-4"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center">
-                    <Mail className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Email</h3>
-                    <a 
-                      href="mailto:srijith180497@gmail.com" 
-                      className="text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      srijith180497@gmail.com
-                    </a>
-                  </div>
-                </motion.div>
-                
-                <motion.div 
-                  className="flex items-center gap-4"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 flex items-center justify-center">
-                    <Linkedin className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">LinkedIn</h3>
-                    <a 
-                      href="https://www.linkedin.com/in/srijith-v-87a4201ab/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
-                    >
-                      srijith-v-87a4201ab
-                    </a>
-                  </div>
-                </motion.div>
-                
-                <div className="p-4 rounded-md bg-gradient-to-r from-purple-500/10 to-blue-500/10 mt-6">
-                  <p className="text-muted-foreground">
-                    <span className="font-medium text-foreground">Location:</span> Coimbatore, India
-                  </p>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
-          
-          <motion.div 
+
+          {/* Message Form */}
+          <motion.div
             className="lg:col-span-3"
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Card className="border-0 shadow-lg overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-500 text-white">
-                <CardTitle>Send Message</CardTitle>
+            <Card className="border border-gray-100 dark:border-gray-700 shadow-lg bg-white dark:bg-gray-800 overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-500">
+                <CardTitle className="text-white text-lg">
+                  Send Message
+                </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium">Name</label>
-                      <Input id="name" placeholder="Your name" className="border-purple-200 focus-visible:ring-purple-500" />
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label
+                        htmlFor="name"
+                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Name
+                      </label>
+                      <Input
+                        id="name"
+                        placeholder="Your name"
+                        className="bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 focus-visible:ring-purple-500 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                      />
                     </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium">Email</label>
-                      <Input id="email" type="email" placeholder="Your email" className="border-purple-200 focus-visible:ring-purple-500" />
+                    <div className="space-y-1.5">
+                      <label
+                        htmlFor="email"
+                        className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Email
+                      </label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="Your email"
+                        className="bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 focus-visible:ring-purple-500 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                      />
                     </div>
                   </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium">Subject</label>
-                    <Input id="subject" placeholder="Message subject" className="border-purple-200 focus-visible:ring-purple-500" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium">Message</label>
-                    <Textarea 
-                      id="message" 
-                      placeholder="Your message" 
-                      rows={5}
-                      className="border-purple-200 focus-visible:ring-purple-500" 
+
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="subject"
+                      className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      Subject
+                    </label>
+                    <Input
+                      id="subject"
+                      placeholder="Message subject"
+                      className="bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 focus-visible:ring-purple-500 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
                     />
                   </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white"
+
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="message"
+                      className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      Message
+                    </label>
+                    <Textarea
+                      id="message"
+                      placeholder="Your message"
+                      rows={5}
+                      className="bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 focus-visible:ring-purple-500 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 resize-none"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white shadow-md shadow-purple-500/20"
                   >
                     Send Message
                     <Send className="ml-2 h-4 w-4" />

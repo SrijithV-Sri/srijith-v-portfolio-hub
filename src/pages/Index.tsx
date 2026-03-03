@@ -1,38 +1,38 @@
-
-import React, { useEffect } from 'react';
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import Experience from '@/components/Experience';
-import Skills from '@/components/Skills';
-import Education from '@/components/Education';
-import Achievements from '@/components/Achievements';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+// src/pages/Index.tsx
+import React, { useEffect } from "react";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Experience from "@/components/Experience";
+import Skills from "@/components/Skills";
+import Education from "@/components/Education";
+import Achievements from "@/components/Achievements";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const Index: React.FC = () => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: 0.05,
   });
 
   useEffect(() => {
     if (inView) {
-      controls.start('visible');
+      controls.start("visible");
     }
   }, [controls, inView]);
 
   return (
-    <div className="min-h-screen bg-gradient-pattern">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
       <Header />
-      <motion.main 
+      <motion.main
         initial="hidden"
         animate="visible"
         variants={{
           hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { staggerChildren: 0.3 } }
+          visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
         }}
       >
         <Hero />
@@ -42,7 +42,7 @@ const Index: React.FC = () => {
           animate={controls}
           variants={{
             hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { duration: 0.8 } }
+            visible: { opacity: 1, transition: { duration: 0.8 } },
           }}
         >
           <Experience />
